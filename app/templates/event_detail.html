@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Event {{ event.id }}{% endblock %}
+{% block content %}
+<section class="page-head reveal"><div><a class="back" href="/events">← Events</a><p class="eyebrow">EVENT / EVT-{{ "%05d"|format(event.id) }}</p><h1>{{ event.endpoint.name }}</h1><p><span class="status {{ event.status }}"><i></i>{{ event.status }}</span> <span class="muted mono">{{ event.received_at.strftime('%Y-%m-%d %H:%M:%S UTC') }}</span></p></div><form method="post" action="/events/{{ event.id }}/replay"><button class="button primary" {% if not event.endpoint.enabled or event.signature_valid is sameas false %}disabled title="Rejected signatures cannot be replayed"{% endif %}>Replay event ↻</button></form></section>
+{% if request.query_params.get('demo') %}<div class="alert success reveal">Demo complete: received, transformed and delivered. Use replay to create another attempt.</div>{% elif request.query_params.get('replayed') %}<div class="alert success reveal">Replay queued with the endpoint’s current transformation rules.</div>{% endif %}
+<section class="detail-grid reveal delay-1">
+  <article class="surface"><p class="eyebrow">SIGNATURE</p><p class="value">{% if event.signature_valid is none %}Not required{% elif event.signature_valid %}Valid{% else %}Rejected{% endif %}</p></article>
+  <article class="surface"><p class="eyebrow">LATEST RESPONSE</p><p class="value mono">HTTP {{ event.latest_response_status or '—' }}</p></article>
+  <article class="surface"><p class="eyebrow">RETRIES</p><p class="value mono">{{ event.retry_count }}</p></article>
+</section>
+<section class="split-section reveal delay-2">
+  <article class="code-card"><div class="code-title"><span>original.json</span><button class="icon-button" data-copy-target="original-json">COPY</button></div><pre id="original-json"><code>{{ event.original_payload|prettyjson }}</code></pre></article>
+  <article class="code-card accent"><div class="code-title"><span>transformed.json</span><button class="icon-button" data-copy-target="transformed-json">COPY</button></div><pre id="transformed-json"><code>{{ event.transformed_payload|prettyjson }}</code></pre></article>
+</section>
+<section class="table-section reveal delay-3"><div class="section-heading compact"><div><p class="eyebrow">DELIVERY LEDGER</p><h2>Attempts</h2></div></div><div class="table-wrap"><table><thead><tr><th>#</th><th>Time</th><th>Destination</th><th>Duration</th><th>Response</th><th>Mode</th></tr></thead><tbody>{% for attempt in event.attempts %}<tr><td class="mono">{{ attempt.attempt_number }}</td><td class="mono muted">{{ attempt.attempted_at.strftime('%H:%M:%S') }}</td><td class="mono truncate">{{ attempt.destination_url }}</td><td class="mono">{{ '%.1f'|format(attempt.duration_ms) }} ms</td><td><span class="status {{ 'delivered' if attempt.succeeded else 'failed' }}"><i></i>{{ attempt.status_code or 'error' }}</span></td><td>{{ 'manual replay' if attempt.is_manual_replay else 'automatic' }}</td></tr>{% else %}<tr><td colspan="6"><div class="empty">Delivery is queued.</div></td></tr>{% endfor %}</tbody></table></div>{% if event.latest_error %}<div class="alert error mono">{{ event.latest_error }}</div>{% endif %}</section>
+{% endblock %}

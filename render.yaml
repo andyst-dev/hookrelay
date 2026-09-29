@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: hookrelay-demo
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: PUBLIC_DEMO_MODE
+        value: "true"
+      - key: ALLOW_PRIVATE_DESTINATIONS_FOR_DEV
+        value: "false"
+      - key: DATABASE_URL
+        value: sqlite:////app/data/hookrelay.db

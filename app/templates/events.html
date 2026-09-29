@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Events{% endblock %}
+{% block content %}
+<section class="page-head reveal"><div><p class="eyebrow">EVENT ARCHIVE</p><h1>Traffic log</h1><p>Original input, transformed output, delivery evidence.</p></div></section>
+<form class="filters reveal delay-1" method="get">
+  <label>Endpoint<select name="endpoint_id"><option value="">All endpoints</option>{% for endpoint in endpoints %}<option value="{{ endpoint.id }}" {% if selected_endpoint == endpoint.id %}selected{% endif %}>{{ endpoint.name }}</option>{% endfor %}</select></label>
+  <label>Status<select name="status"><option value="">Any status</option>{% for value in ['pending','delivered','retrying','failed','rejected'] %}<option value="{{ value }}" {% if selected_status == value %}selected{% endif %}>{{ value }}</option>{% endfor %}</select></label>
+  <button class="button secondary" type="submit">Apply filters</button>
+</form>
+<section class="table-section reveal delay-2">{% include "partials_event_table.html" %}</section>
+{% endblock %}

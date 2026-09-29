@@ -1,0 +1,19 @@
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Event</th><th>Endpoint</th><th>Received</th><th>Status</th><th>Response</th><th></th></tr></thead>
+    <tbody>
+    {% for event in recent|default(events) %}
+      <tr>
+        <td class="mono">EVT-{{ "%05d"|format(event.id) }}</td>
+        <td>{{ event.endpoint.name }}</td>
+        <td class="muted mono">{{ event.received_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+        <td><span class="status {{ event.status }}"><i></i>{{ event.status }}</span></td>
+        <td class="mono">{{ event.latest_response_status or '—' }}</td>
+        <td><a class="row-link" href="/events/{{ event.id }}" aria-label="Inspect event {{ event.id }}">↗</a></td>
+      </tr>
+    {% else %}
+      <tr><td colspan="6"><div class="empty">No traffic yet. Send the demo event to light up the relay.</div></td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>

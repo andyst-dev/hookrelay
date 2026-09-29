@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero reveal">
+  <div>
+    <p class="eyebrow">WEBHOOK OPERATIONS / LIVE</p>
+    <h1>See what happens<br><em>between systems.</em></h1>
+    <p class="lede">Receive, validate, reshape and forward webhook traffic. Every attempt stays inspectable; every event can run again.</p>
+  </div>
+  <div class="signal-card">
+    <div class="signal-head"><span>RELAY PATH</span><b>READY</b></div>
+    <div class="relay-path">
+      <span>source</span><i></i><strong>HR</strong><i></i><span>target</span>
+    </div>
+    <div class="signal-foot">POST /hooks/{endpoint_key}</div>
+  </div>
+</section>
+
+<section class="metrics reveal delay-1" aria-label="Status overview">
+  <article><span>Endpoints</span><strong>{{ counts.endpoints }}</strong><small>configured routes</small></article>
+  <article><span>Events</span><strong>{{ counts.events }}</strong><small>captured total</small></article>
+  <article><span>Delivered</span><strong class="good">{{ counts.delivered }}</strong><small>2xx responses</small></article>
+  <article><span>Attention</span><strong class="{% if counts.attention %}warn{% endif %}">{{ counts.attention }}</strong><small>failed or waiting</small></article>
+</section>
+
+<section class="demo-panel reveal delay-2">
+  <div class="section-heading">
+    <div><p class="eyebrow">60-SECOND DEMO</p><h2>Send one. Trace everything.</h2></div>
+    <form method="post" action="/demo/send"><button class="button primary" type="submit"><span>Send sample event</span><b>→</b></button></form>
+  </div>
+  <div class="demo-grid">
+    <div class="step-list">
+      <div><b>01</b><span><strong>Receive</strong> A synthetic payment event enters the public hook.</span></div>
+      <div><b>02</b><span><strong>Transform</strong> Nested fields become a clean destination payload.</span></div>
+      <div><b>03</b><span><strong>Forward</strong> The safe built-in receiver returns HTTP 202.</span></div>
+      <div><b>04</b><span><strong>Inspect + replay</strong> Open the event and run it again.</span></div>
+    </div>
+    <div class="code-card">
+      <div class="code-title"><span>sample.json</span><button class="icon-button" data-copy-target="sample-json" aria-label="Copy sample JSON">COPY</button></div>
+      <pre id="sample-json"><code>{{ sample }}</code></pre>
+    </div>
+  </div>
+</section>
+
+<section class="table-section reveal delay-3">
+  <div class="section-heading compact"><div><p class="eyebrow">EVENT STREAM</p><h2>Recent traffic</h2></div><a class="text-link" href="/events">View all →</a></div>
+  {% include "partials_event_table.html" %}
+</section>
+{% endblock %}

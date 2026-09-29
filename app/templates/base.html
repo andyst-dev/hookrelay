@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>{% block title %}HookRelay{% endblock %} · Webhook operations</title>
+  <link rel="icon" href="{{ url_for('static', path='/favicon.svg') }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="HookRelay dashboard">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>HOOK<span>RELAY</span></span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="/" class="{% if request.url.path == '/' %}active{% endif %}">Overview</a>
+        <a href="/endpoints" class="{% if request.url.path.startswith('/endpoints') %}active{% endif %}">Endpoints</a>
+        <a href="/events" class="{% if request.url.path.startswith('/events') %}active{% endif %}">Events</a>
+        <a href="/docs">API</a>
+      </nav>
+      <div class="system-state"><span></span> operational</div>
+    </header>
+    <main>{% block content %}{% endblock %}</main>
+    <footer><span>HookRelay v1.0.0</span><span>Local-first webhook infrastructure</span></footer>
+  </div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="{{ url_for('static', path='/app.js') }}" defer></script>
+</body>
+</html>

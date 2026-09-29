@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ endpoint.name }}{% endblock %}
+{% block content %}
+<section class="page-head reveal"><div><a class="back" href="/endpoints">← Endpoints</a><p class="eyebrow">ENDPOINT / {{ endpoint.id }}</p><h1>{{ endpoint.name }}</h1><p><span class="status {% if endpoint.enabled %}delivered{% else %}disabled{% endif %}"><i></i>{{ 'live' if endpoint.enabled else 'disabled' }}</span> <span class="muted">Created {{ endpoint.created_at.strftime('%d %b %Y') }}</span></p></div>{% if not settings.public_demo_mode %}<form method="post" action="/endpoints/{{ endpoint.id }}/toggle"><button class="button secondary">{{ 'Disable' if endpoint.enabled else 'Enable' }} endpoint</button></form>{% endif %}</section>
+<section class="detail-grid reveal delay-1">
+  <article class="surface wide"><p class="eyebrow">INCOMING URL</p><div class="copy-field"><code id="hook-url">{{ hook_url }}</code><button data-copy-target="hook-url">COPY</button></div><p class="hint">Accepts JSON POST requests only.</p></article>
+  <article class="surface"><p class="eyebrow">DESTINATION</p><p class="value mono break">{{ endpoint.destination_url }}</p></article>
+  <article class="surface"><p class="eyebrow">SIGNATURE</p><p class="value">{{ 'HMAC SHA-256 required' if endpoint.signing_secret else 'Not configured' }}</p></article>
+</section>
+<section class="split-section reveal delay-2">
+  <article class="code-card"><div class="code-title"><span>transformations.json</span></div><pre><code>{{ endpoint.transformation_rules|prettyjson }}</code></pre></article>
+  <article class="code-card"><div class="code-title"><span>Try with curl</span><button class="icon-button" data-copy-target="curl-command">COPY</button></div><pre id="curl-command"><code>{{ curl_command }}</code></pre></article>
+</section>
+<section class="table-section reveal delay-3"><div class="section-heading compact"><div><p class="eyebrow">LATEST</p><h2>Endpoint traffic</h2></div><a class="text-link" href="/events?endpoint_id={{ endpoint.id }}">View all →</a></div>{% include "partials_event_table.html" %}</section>
+{% endblock %}

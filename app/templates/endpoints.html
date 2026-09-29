@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Endpoints{% endblock %}
+{% block content %}
+<section class="page-head reveal"><div><p class="eyebrow">ROUTING TABLE</p><h1>Endpoints</h1><p>Public inputs mapped to controlled destinations.</p></div>{% if not settings.public_demo_mode %}<button class="button primary" data-dialog-open="new-endpoint">New endpoint <b>+</b></button>{% endif %}</section>
+{% if form_error %}<div class="alert error">{{ form_error }}</div>{% endif %}
+<section class="endpoint-grid reveal delay-1">
+{% for endpoint in endpoints %}
+  <a class="endpoint-card" href="/endpoints/{{ endpoint.id }}">
+    <div class="endpoint-top"><span class="status {% if endpoint.enabled %}delivered{% else %}disabled{% endif %}"><i></i>{{ 'live' if endpoint.enabled else 'disabled' }}</span><span class="mono">/{{ endpoint.public_key }}</span></div>
+    <div><h2>{{ endpoint.name }}</h2><p class="truncate mono">→ {{ endpoint.destination_url }}</p></div>
+    <div class="endpoint-meta"><span>{{ endpoint.transformation_rules|length }} rules</span><span>{{ 'signed' if endpoint.signing_secret else 'unsigned' }}</span><b>↗</b></div>
+  </a>
+{% endfor %}
+</section>
+{% if not settings.public_demo_mode %}
+<dialog id="new-endpoint">
+  <form method="post" action="/endpoints" class="dialog-form">
+    <div class="dialog-head"><div><p class="eyebrow">NEW ROUTE</p><h2>Create endpoint</h2></div><button type="button" class="icon-button" data-dialog-close aria-label="Close">×</button></div>
+    <label>Name<input required maxlength="120" name="name" placeholder="Billing events"></label>
+    <label>Destination URL<input required type="url" name="destination_url" placeholder="https://api.example.com/webhooks"></label>
+    <label>Signing secret <small>optional, minimum 16 characters</small><input type="password" name="signing_secret" autocomplete="new-password"></label>
+    <label>Transformation rules <small>JSON array</small><textarea name="transformation_rules" rows="8">[]</textarea></label>
+    <div class="dialog-actions"><button class="button secondary" type="button" data-dialog-close>Cancel</button><button class="button primary" type="submit">Create route →</button></div>
+  </form>
+</dialog>
+{% endif %}
+{% endblock %}

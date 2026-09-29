@@ -1,0 +1,100 @@
+{
+  "after": {
+    "agents_hierarchy": [
+      "AGENTS.md"
+    ],
+    "automatic_instruction_bytes": {
+      "classification": "exact",
+      "unit": "bytes",
+      "value": 4063
+    },
+    "automatic_instruction_tokens": {
+      "classification": "estimated",
+      "method": "ceil(bytes/4)",
+      "unit": "tokens",
+      "value": 1016
+    },
+    "captured_at": "2026-09-29T13:06:21+00:00",
+    "instruction_files": [
+      {
+        "bytes": 4052,
+        "classification": "exact",
+        "path": "AGENTS.md"
+      },
+      {
+        "bytes": 11,
+        "classification": "exact",
+        "path": "CLAUDE.md"
+      }
+    ],
+    "large_mandatory_startup_docs": {
+      "classification": "heuristic",
+      "documents": [],
+      "threshold_bytes": 10000,
+      "value": 0
+    },
+    "project_maps": {
+      "classification": "exact",
+      "paths": [
+        "AGENTS.md"
+      ],
+      "value": 1
+    },
+    "project_type": "python-fastapi-webhook-gateway"
+  },
+  "baseline_available": true,
+  "before": {
+    "agents_hierarchy": [],
+    "automatic_instruction_bytes": {
+      "classification": "exact",
+      "unit": "bytes",
+      "value": 0
+    },
+    "automatic_instruction_tokens": {
+      "classification": "estimated",
+      "method": "ceil(bytes/4)",
+      "unit": "tokens",
+      "value": 0
+    },
+    "captured_at": "2026-09-29T13:04:08+00:00",
+    "instruction_files": [],
+    "large_mandatory_startup_docs": {
+      "classification": "heuristic",
+      "documents": [],
+      "threshold_bytes": 10000,
+      "value": 0
+    },
+    "project_maps": {
+      "classification": "exact",
+      "paths": [],
+      "value": 0
+    },
+    "project_type": "Python"
+  },
+  "changes": {
+    "classification": "exact",
+    "created": [
+      "AGENTS.md",
+      "CLAUDE.md"
+    ],
+    "exclusions_installed": [
+      ".DS_Store"
+    ],
+    "modified": [
+      ".gitignore"
+    ],
+    "moved_or_renamed": [],
+    "source": "bootstrap action log"
+  },
+  "contextlean_version": "0.1.0",
+  "generated_at": "2026-09-29T13:06:21+00:00",
+  "kind": "contextlean-bootstrap-report",
+  "measurement_limits": [
+    "Static structure is not measured model-token usage or model quality.",
+    "Token values are byte-based estimates, never tokenizer measurements.",
+    "Mandatory startup documents are detected heuristically from instruction wording and paths.",
+    "No repository contents or secrets are copied into this report."
+  ],
+  "project_type": "python-fastapi-webhook-gateway",
+  "schema_version": 1
+}
