@@ -1,0 +1,133 @@
+<svg width="1200" height="640" viewBox="0 0 1200 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>How HookRelay processes a webhook</title>
+  <desc>An incoming nested JSON webhook is validated, stored, transformed and delivered as a clean payload. Every delivery attempt is recorded and the event can be replayed with current rules.</desc>
+  <defs>
+    <pattern id="flow-grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" stroke="#FFFFFF" stroke-opacity="0.035"/>
+    </pattern>
+    <filter id="flow-glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="7"/>
+    </filter>
+    <marker id="flow-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10Z" fill="#C9FF3F"/>
+    </marker>
+  </defs>
+
+  <rect width="1200" height="640" fill="#0D0E0E"/>
+  <rect width="1200" height="640" fill="url(#flow-grid)"/>
+
+  <text x="54" y="54" fill="#C9FF3F" font-family="SFMono-Regular, Consolas, monospace" font-size="11" font-weight="700" letter-spacing="1.8">THE RELAY PATH</text>
+  <text x="54" y="88" fill="#F4F2EC" font-family="Helvetica Neue, Arial, sans-serif" font-size="28" font-weight="700" letter-spacing="-1">From raw webhook to inspectable delivery</text>
+  <text x="1146" y="78" fill="#686963" font-family="SFMono-Regular, Consolas, monospace" font-size="10" text-anchor="end" letter-spacing="1">RECEIVE / TRANSFORM / DELIVER / REPLAY</text>
+
+  <!-- Before -->
+  <rect x="54" y="120" width="330" height="356" rx="8" fill="#151716" stroke="#FFFFFF" stroke-opacity="0.15"/>
+  <rect x="54" y="120" width="330" height="54" rx="8" fill="#191B19"/>
+  <path d="M54 166H384" stroke="#FFFFFF" stroke-opacity="0.1"/>
+  <text x="72" y="143" fill="#C9FF3F" font-family="SFMono-Regular, Consolas, monospace" font-size="9" font-weight="700" letter-spacing="1.4">BEFORE</text>
+  <text x="72" y="160" fill="#F4F2EC" font-family="Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700">Incoming webhook</text>
+  <rect x="282" y="135" width="84" height="22" rx="3" fill="#0D0E0E"/>
+  <text x="324" y="149" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="8" text-anchor="middle">POST /hooks/…</text>
+
+  <text x="74" y="202" fill="#686963" font-family="SFMono-Regular, Consolas, monospace" font-size="9" letter-spacing="1">ORIGINAL.JSON</text>
+  <text x="74" y="232" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="13">{</text>
+  <text x="90" y="258" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="13">"type":</text>
+  <text x="156" y="258" fill="#F4F2EC" font-family="SFMono-Regular, Consolas, monospace" font-size="13">"payment.completed",</text>
+  <text x="90" y="284" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="13">"customer": {</text>
+  <text x="106" y="310" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="13">"email":</text>
+  <text x="180" y="310" fill="#F4F2EC" font-family="SFMono-Regular, Consolas, monospace" font-size="13">"demo@example.com"</text>
+  <text x="90" y="336" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="13">},</text>
+  <text x="90" y="362" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="13">"amount":</text>
+  <text x="172" y="362" fill="#F4F2EC" font-family="SFMono-Regular, Consolas, monospace" font-size="13">4900,</text>
+  <text x="90" y="388" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="13">"currency":</text>
+  <text x="188" y="388" fill="#F4F2EC" font-family="SFMono-Regular, Consolas, monospace" font-size="13">"CHF"</text>
+  <text x="74" y="414" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="13">}</text>
+  <circle cx="76" cy="449" r="4" fill="#C9FF3F"/>
+  <text x="90" y="453" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="9" letter-spacing="1">RAW BODY PRESERVED</text>
+
+  <!-- Center / HookRelay -->
+  <rect x="435" y="120" width="330" height="356" rx="8" fill="#151716" stroke="#C9FF3F" stroke-opacity="0.5"/>
+  <rect x="447" y="132" width="306" height="48" rx="5" fill="#C9FF3F" fill-opacity="0.08"/>
+  <rect x="462" y="143" width="26" height="26" rx="4" fill="#C9FF3F"/>
+  <rect x="469" y="152" width="3" height="9" rx="1.5" fill="#10110F"/>
+  <rect x="475" y="148" width="3" height="17" rx="1.5" fill="#10110F"/>
+  <rect x="481" y="151" width="3" height="11" rx="1.5" fill="#10110F"/>
+  <text x="500" y="153" fill="#F4F2EC" font-family="Helvetica Neue, Arial, sans-serif" font-size="15" font-weight="700">HookRelay</text>
+  <text x="500" y="168" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="8" letter-spacing="1">VALIDATE · STORE · RESHAPE · FORWARD</text>
+
+  <path d="M476 215V410" stroke="#FFFFFF" stroke-opacity="0.13"/>
+
+  <circle cx="476" cy="221" r="10" fill="#C9FF3F" fill-opacity="0.2" stroke="#C9FF3F"/>
+  <text x="476" y="225" fill="#C9FF3F" font-family="SFMono-Regular, Consolas, monospace" font-size="9" font-weight="700" text-anchor="middle">1</text>
+  <text x="500" y="218" fill="#F4F2EC" font-family="Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700">Receive + validate</text>
+  <text x="500" y="237" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="9">size · JSON · rate limit · HMAC</text>
+
+  <circle cx="476" cy="283" r="10" fill="#C9FF3F" fill-opacity="0.2" stroke="#C9FF3F"/>
+  <text x="476" y="287" fill="#C9FF3F" font-family="SFMono-Regular, Consolas, monospace" font-size="9" font-weight="700" text-anchor="middle">2</text>
+  <text x="500" y="280" fill="#F4F2EC" font-family="Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700">Store original</text>
+  <text x="500" y="299" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="9">payload · headers · received time</text>
+
+  <circle cx="476" cy="345" r="10" fill="#C9FF3F" fill-opacity="0.2" stroke="#C9FF3F"/>
+  <text x="476" y="349" fill="#C9FF3F" font-family="SFMono-Regular, Consolas, monospace" font-size="9" font-weight="700" text-anchor="middle">3</text>
+  <text x="500" y="342" fill="#F4F2EC" font-family="Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700">Apply current rules</text>
+  <text x="500" y="361" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="9">rename · copy · remove · add</text>
+
+  <circle cx="476" cy="407" r="10" fill="#C9FF3F" fill-opacity="0.2" stroke="#C9FF3F"/>
+  <text x="476" y="411" fill="#C9FF3F" font-family="SFMono-Regular, Consolas, monospace" font-size="9" font-weight="700" text-anchor="middle">4</text>
+  <text x="500" y="404" fill="#F4F2EC" font-family="Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700">Deliver + record</text>
+  <text x="500" y="423" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="9">status · duration · response · retry</text>
+
+  <rect x="447" y="442" width="306" height="22" rx="3" fill="#0D0E0E"/>
+  <text x="600" y="456" fill="#C9FF3F" font-family="SFMono-Regular, Consolas, monospace" font-size="8" font-weight="700" text-anchor="middle" letter-spacing="1">DETERMINISTIC · DATA ONLY · INSPECTABLE</text>
+
+  <!-- After -->
+  <rect x="816" y="120" width="330" height="356" rx="8" fill="#151716" stroke="#FFFFFF" stroke-opacity="0.15"/>
+  <rect x="816" y="120" width="330" height="54" rx="8" fill="#191B19"/>
+  <path d="M816 166H1146" stroke="#FFFFFF" stroke-opacity="0.1"/>
+  <text x="834" y="143" fill="#C9FF3F" font-family="SFMono-Regular, Consolas, monospace" font-size="9" font-weight="700" letter-spacing="1.4">AFTER</text>
+  <text x="834" y="160" fill="#F4F2EC" font-family="Helvetica Neue, Arial, sans-serif" font-size="14" font-weight="700">Delivered payload</text>
+  <rect x="1062" y="135" width="66" height="22" rx="3" fill="#0D0E0E"/>
+  <circle cx="1077" cy="146" r="3" fill="#C9FF3F"/>
+  <text x="1097" y="149" fill="#C9FF3F" font-family="SFMono-Regular, Consolas, monospace" font-size="8" font-weight="700" text-anchor="middle">202</text>
+
+  <text x="836" y="202" fill="#686963" font-family="SFMono-Regular, Consolas, monospace" font-size="9" letter-spacing="1">TRANSFORMED.JSON</text>
+  <text x="836" y="232" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="13">{</text>
+  <text x="852" y="258" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="13">"event_type":</text>
+  <text x="966" y="258" fill="#F4F2EC" font-family="SFMono-Regular, Consolas, monospace" font-size="13">"payment.completed",</text>
+  <text x="852" y="284" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="13">"email":</text>
+  <text x="926" y="284" fill="#F4F2EC" font-family="SFMono-Regular, Consolas, monospace" font-size="13">"demo@example.com",</text>
+  <text x="852" y="310" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="13">"amount":</text>
+  <text x="934" y="310" fill="#F4F2EC" font-family="SFMono-Regular, Consolas, monospace" font-size="13">4900,</text>
+  <text x="852" y="336" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="13">"currency":</text>
+  <text x="950" y="336" fill="#F4F2EC" font-family="SFMono-Regular, Consolas, monospace" font-size="13">"CHF",</text>
+  <text x="852" y="362" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="13">"source":</text>
+  <text x="934" y="362" fill="#F4F2EC" font-family="SFMono-Regular, Consolas, monospace" font-size="13">"hookrelay-demo"</text>
+  <text x="836" y="388" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="13">}</text>
+  <circle cx="838" cy="449" r="4" fill="#C9FF3F"/>
+  <text x="852" y="453" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="9" letter-spacing="1">CLEAN PAYLOAD DELIVERED</text>
+
+  <!-- Flow arrows -->
+  <path d="M395 298H422" stroke="#C9FF3F" stroke-width="2" marker-end="url(#flow-arrow)"/>
+  <text x="408" y="284" fill="#686963" font-family="SFMono-Regular, Consolas, monospace" font-size="7" text-anchor="middle" letter-spacing="0.8">IN</text>
+  <path d="M776 298H803" stroke="#C9FF3F" stroke-width="2" marker-end="url(#flow-arrow)"/>
+  <text x="789" y="284" fill="#686963" font-family="SFMono-Regular, Consolas, monospace" font-size="7" text-anchor="middle" letter-spacing="0.8">OUT</text>
+
+  <!-- Persistent evidence / replay -->
+  <rect x="54" y="514" width="1092" height="78" rx="8" fill="#151716" stroke="#FFFFFF" stroke-opacity="0.12"/>
+  <text x="72" y="540" fill="#686963" font-family="SFMono-Regular, Consolas, monospace" font-size="8" letter-spacing="1.2">THE AUDIT TRAIL</text>
+  <path d="M208 558H992" stroke="#FFFFFF" stroke-opacity="0.12"/>
+  <circle cx="218" cy="558" r="6" fill="#C9FF3F"/>
+  <circle cx="480" cy="558" r="6" fill="#C9FF3F"/>
+  <circle cx="742" cy="558" r="6" fill="#C9FF3F"/>
+  <circle cx="1004" cy="558" r="6" fill="#C9FF3F"/>
+  <text x="218" y="579" fill="#F4F2EC" font-family="Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle">Original stored</text>
+  <text x="480" y="579" fill="#F4F2EC" font-family="Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle">Attempt recorded</text>
+  <text x="742" y="579" fill="#F4F2EC" font-family="Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle">Retry state persisted</text>
+  <text x="1004" y="579" fill="#F4F2EC" font-family="Helvetica Neue, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle">Replay with current rules</text>
+
+  <path d="M1048 514C1048 491 1019 489 987 489H633C608 489 600 477 600 466" stroke="#C9FF3F" stroke-opacity="0.55" stroke-width="1.5" stroke-dasharray="4 5" marker-end="url(#flow-arrow)"/>
+  <text x="946" y="503" fill="#C9FF3F" font-family="SFMono-Regular, Consolas, monospace" font-size="8" letter-spacing="1">REPLAY</text>
+
+  <text x="54" y="621" fill="#686963" font-family="SFMono-Regular, Consolas, monospace" font-size="9" letter-spacing="1">ONE EVENT · EVERY TRANSFORMATION · EVERY DELIVERY ATTEMPT</text>
+  <text x="1146" y="621" fill="#686963" font-family="SFMono-Regular, Consolas, monospace" font-size="9" text-anchor="end" letter-spacing="1">INSPECTABLE END TO END</text>
+</svg>

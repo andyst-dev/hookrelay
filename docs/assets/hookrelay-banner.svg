@@ -1,0 +1,46 @@
+<svg width="1200" height="250" viewBox="0 0 1200 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" stroke="#FFFFFF" stroke-opacity="0.035"/>
+    </pattern>
+    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="250" fill="#0D0E0E"/>
+  <rect width="1200" height="250" fill="url(#grid)"/>
+  <path d="M0 218H1200" stroke="#FFFFFF" stroke-opacity="0.09"/>
+  <path d="M806 0V250" stroke="#FFFFFF" stroke-opacity="0.09"/>
+
+  <g transform="translate(64 64)">
+    <rect width="54" height="54" rx="8" fill="#C9FF3F" fill-opacity="0.22" filter="url(#glow)"/>
+    <rect width="54" height="54" rx="8" fill="#C9FF3F"/>
+    <rect x="15" y="20" width="4" height="14" rx="2" fill="#10110F"/>
+    <rect x="25" y="12" width="4" height="30" rx="2" fill="#10110F"/>
+    <rect x="35" y="17" width="4" height="20" rx="2" fill="#10110F"/>
+  </g>
+
+  <text x="140" y="111" fill="#F4F2EC" font-family="Helvetica Neue, Arial, sans-serif" font-size="58" font-weight="700" letter-spacing="-3">HOOK</text>
+  <text x="310" y="111" fill="#C9FF3F" font-family="Helvetica Neue, Arial, sans-serif" font-size="58" font-weight="700" letter-spacing="-3">RELAY</text>
+  <text x="66" y="156" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="13" letter-spacing="1.5">RECEIVE  /  VALIDATE  /  TRANSFORM  /  DELIVER  /  REPLAY</text>
+  <text x="66" y="190" fill="#686863" font-family="SFMono-Regular, Consolas, monospace" font-size="10" letter-spacing="1.2">LOCAL-FIRST WEBHOOK OPERATIONS</text>
+
+  <g transform="translate(846 48)">
+    <rect width="300" height="150" rx="8" fill="#151716" stroke="#FFFFFF" stroke-opacity="0.16"/>
+    <text x="20" y="28" fill="#686863" font-family="SFMono-Regular, Consolas, monospace" font-size="9" letter-spacing="1.3">RELAY PATH / LIVE</text>
+    <rect x="242" y="16" width="38" height="20" rx="3" fill="#10110F"/>
+    <text x="251" y="29" fill="#C9FF3F" font-family="SFMono-Regular, Consolas, monospace" font-size="8" font-weight="700">202</text>
+
+    <text x="20" y="80" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="9">HOOK</text>
+    <path d="M56 76H108" stroke="#686863" stroke-dasharray="4 5"/>
+    <circle cx="132" cy="76" r="21" fill="#C9FF3F"/>
+    <text x="123" y="81" fill="#10110F" font-family="SFMono-Regular, Consolas, monospace" font-size="12" font-weight="700">HR</text>
+    <path d="M154 76H206" stroke="#686863" stroke-dasharray="4 5"/>
+    <text x="218" y="80" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="9">TARGET</text>
+
+    <path d="M20 112H280" stroke="#FFFFFF" stroke-opacity="0.09"/>
+    <circle cx="25" cy="132" r="4" fill="#C9FF3F"/>
+    <text x="38" y="136" fill="#9B9A94" font-family="SFMono-Regular, Consolas, monospace" font-size="9" letter-spacing="1">DELIVERED / INSPECTABLE</text>
+  </g>
+</svg>

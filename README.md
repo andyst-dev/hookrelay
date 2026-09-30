@@ -1,12 +1,27 @@
-# HookRelay
+<div align="center">
+  <img src="docs/assets/hookrelay-banner.svg" alt="HookRelay — receive, validate, transform, deliver and replay webhooks" width="100%">
+</div>
 
-> Receive, inspect, transform and replay webhooks without the plumbing.
+<p align="center">
+  <strong>Receive, inspect, transform and replay webhooks without the plumbing.</strong><br>
+  A compact, local-first webhook gateway with every event and delivery attempt in view.
+</p>
 
-[![CI](https://github.com/andyst-dev/hookrelay/actions/workflows/ci.yml/badge.svg)](https://github.com/andyst-dev/hookrelay/actions/workflows/ci.yml)
+<p align="center">
+  <a href="https://github.com/andyst-dev/hookrelay/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/andyst-dev/hookrelay/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="https://hookrelay-demo.onrender.com"><img alt="Live demo" src="https://img.shields.io/badge/live_demo-open-c9ff3f?labelColor=151716"></a>
+  <a href="https://hookrelay-demo.onrender.com/docs"><img alt="API docs" src="https://img.shields.io/badge/API_docs-OpenAPI-c9ff3f?labelColor=151716"></a>
+</p>
 
 HookRelay is a compact webhook gateway for development and small-team workflows. It accepts JSON events at stable public URLs, verifies optional HMAC signatures, applies a deliberately small set of deterministic transformations, forwards payloads, records every attempt, retries failures, and lets operators replay old events.
 
 It exists for the space between “log the request body” and a distributed event platform: integration work where inspectability matters but operating a queue cluster does not.
+
+The public demo runs in read-only configuration mode: visitors can exercise the seeded endpoint but cannot create arbitrary forwarding routes.
+
+## How HookRelay works
+
+![HookRelay flow from the original webhook through validation, storage and transformation to the delivered payload, with retries and replay](docs/assets/hookrelay-flow.svg)
 
 ## Features
 
